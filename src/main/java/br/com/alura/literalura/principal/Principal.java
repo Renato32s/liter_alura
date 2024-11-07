@@ -1,27 +1,30 @@
 package br.com.alura.literalura.principal;
 
+import br.com.alura.literalura.model.Autor;
 import br.com.alura.literalura.model.DadosLivro;
 import br.com.alura.literalura.model.Livro;
+import br.com.alura.literalura.model.Results;
 import br.com.alura.literalura.repository.iAutorRepository;
 import br.com.alura.literalura.repository.iLivrosRepository;
 import br.com.alura.literalura.service.ConsumoAPI;
 import br.com.alura.literalura.service.ConverteDados;
-import br.com.alura.literalura.service.LivroRequestAPI;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
 
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Principal {
     private Scanner scan = new Scanner(System.in);
     private ConsumoAPI consumo = new ConsumoAPI();
     private ConverteDados conversor = new ConverteDados();
-    private static String API_URL = "https://gutendex.com/books/?search=";
-    private List<Livro> dadosLivro = new ArrayList<>();
     private iLivrosRepository livrosRepositorio;
     private iAutorRepository autorRepositorio;
+    private static String API_URL = "https://gutendex.com/books/?search=";
+
+    List<Livro> livros;
+    List<Autor> autor;
+
     public Principal(iLivrosRepository livrosRepositorio, iAutorRepository autorRepositorio) {
         this.livrosRepositorio = livrosRepositorio;
         this.autorRepositorio = autorRepositorio;
@@ -38,6 +41,11 @@ public class Principal {
                     1 - Buscar livro por nome
                     
                     0 - sair
+                    
+                    |***************************************************|
+                    |*****            ESCOLHA UMA OPÇÂO           ******|
+                    |***************************************************|
+                    
                     """;
             try {
                 System.out.println(menu);
@@ -55,41 +63,63 @@ public class Principal {
                 case 1:
                     buscarLivro();
                     break;
+                case 0:
+                    System.out.println("|********************************|");
+                    System.out.println("|     ENCERRANDO A AOLICAÇÃO     |");
+                    System.out.println("|********************************|\n");
+                    break;
+                default:
+                    System.out.println("|********************************|");
+                    System.out.println("|         OPCÃO INCORRETA        |");
+                    System.out.println("|********************************|\n");
+                    System.out.println("TENTE NOVAMENTE");
+                    exibeMenu();
+                    break;
             }
-        }
-    }
-
-    private Livro pegaDadosLivros() {
-        System.out.println("qual livro deseja buscar?: ");
-        var nomeLivro = scan.nextLine().toLowerCase();
-        var json = consumo.obterDados(API_URL + nomeLivro.replace(" ", "%20").trim());
-        LivroRequestAPI dados = conversor.obterDados(json, LivroRequestAPI.class);
-        if (dados != null && dados.getResultadoLivros() != null && !dados.getResultadoLivros().isEmpty()) {
-            DadosLivro primeiroLivro = dados.getResultadoLivros().get(0);
-            return new Livro(primeiroLivro);
-        } else {
-            System.out.println("livro não encontrado");
-            return null;
         }
     }
 
     private void buscarLivro() {
-        Livro livro = pegaDadosLivros();
-
-        if (livro == null) {
-            System.out.println("livro não encontrado, o valor é nulo");
-            return;
-        }
-        try {
-            boolean livroExiste = livrosRepositorio.existsByTitulo(livro.getTitulo());
-            if (livroExiste) {
-                System.out.println("esse livro já existe no banco de dados");
-            } else {
-                livrosRepositorio.save(livro);
-                System.out.println(livro.toString());
-            }
-        } catch (InvalidDataAccessApiUsageException e) {
-            System.out.println("não pode salvar o livro buscado");
+        System.out.println("qual livro deseja buscar?: ");
+        var nomeLivro = scan.nextLine().toLowerCase();
+        var json = consumo.obterDados(API_URL + nomeLivro.replace(" ", "%20").trim());
+        var dados = conversor.obterDados(json, Results.class);
+        if (dados.results().isEmpty()) {
+            System.out.println("livro não encontrado");;
+        } else {
+            DadosLivro dadosLivro = dados.results().get(0);
+            Livro livro = new Livro(dadosLivro);
+            Autor autor = new Autor().pegaAutor(dadosLivro);
+            salvarDados(livro, autor);
         }
     }
+
+    private void salvarDados(Livro livro, Autor autor) {
+        Optional<Livro> livroEncontrado = livrosRepositorio.findByTituloContains(livro.getTitulo());
+        if (livroEncontrado.isPresent()) {
+            System.out.println("esse livro já existe no banco de dados");
+        } else {
+            try {
+                livrosRepositorio.save(livro);
+                System.out.println("livro guardado");
+                System.out.println(livro);
+            } catch (Exception e) {
+                System.out.println("erro: " + e.getMessage());
+            }
+        }
+
+        Optional<Autor> autorEncontrado = autorRepositorio.findByNomeContains(autor.getNome());
+        if (autorEncontrado.isPresent()) {
+            System.out.println("esse autor já existe no banco de dados");
+        } else {
+            try {
+                autorRepositorio.save(autor);
+                System.out.println("autor guardado");
+                System.out.println(autor);
+            } catch (Exception e) {
+                System.out.println("erro: " + e.getMessage());
+            }
+        }
+    }
+
 }

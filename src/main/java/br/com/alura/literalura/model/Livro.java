@@ -12,9 +12,7 @@ public class Livro {
     private Long id;
     @Column(unique = true)
     private String titulo;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "autor_id")
-    private Autor autor;
+    private String autor;
     private String idiomas;
     private Integer downloads;
 
@@ -22,11 +20,7 @@ public class Livro {
 
     public Livro (DadosLivro dadosLivro) {
         this.titulo = dadosLivro.titulo();
-        if (dadosLivro.autores() != null && dadosLivro.autores().isEmpty()) {
-            this.autor = new Autor(dadosLivro.autores().get(0));
-        } else {
-            this.autor = null;
-        }
+        this.autor = pegaAutor(dadosLivro).getNome();
         this.idiomas = idiomaMod(dadosLivro.idiomas());
         this.downloads = dadosLivro.downloads();
     }
@@ -37,6 +31,11 @@ public class Livro {
         } else {
             return idiomas.get(0);
         }
+    }
+
+    public Autor pegaAutor(DadosLivro dadosLivro) {
+        DadosAutor dadosAutor = dadosLivro.autor().get(0);
+        return new Autor(dadosAutor);
     }
 
     public Long getId() {
@@ -55,11 +54,11 @@ public class Livro {
         this.titulo = titulo;
     }
 
-    public Autor getAutor() {
+    public String getAutor() {
         return autor;
     }
 
-    public void setAutor(Autor autor) {
+    public void setAutor(String autor) {
         this.autor = autor;
     }
 
@@ -81,12 +80,11 @@ public class Livro {
 
     @Override
     public String toString() {
-        return "Livro{" +
-                "id=" + id +
-                ", titulo='" + titulo + '\'' +
-                ", autor=" + autor +
-                ", idiomas='" + idiomas + '\'' +
-                ", downloads=" + downloads +
-                '}';
+        return "\n\t**** info livro ****" +
+                "\n\tTitulo: " + titulo +
+                "\n\tAutor: " + autor +
+                "\n\tIdiomas: " + idiomas +
+                "\n\tDownloads: " + downloads +
+                "\n\t*******************";
     }
 }
