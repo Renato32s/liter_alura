@@ -8,11 +8,9 @@ import br.com.alura.literalura.repository.iAutorRepository;
 import br.com.alura.literalura.repository.iLivrosRepository;
 import br.com.alura.literalura.service.ConsumoAPI;
 import br.com.alura.literalura.service.ConverteDados;
+import jakarta.persistence.criteria.CriteriaBuilder;
 
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 public class Principal {
     private Scanner scan = new Scanner(System.in);
@@ -39,6 +37,10 @@ public class Principal {
                     |***************************************************|
                     
                     1 - Buscar livro por nome
+                    2 - Listar livros salvos
+                    3 - Listar autores salvos
+                    4 - Listar autores vivos em um determinado ano
+                    5 - Listar livros por idioma
                     
                     0 - sair
                     
@@ -63,9 +65,21 @@ public class Principal {
                 case 1:
                     buscarLivro();
                     break;
+                case 2:
+                    listarLivrosSalvos();
+                    break;
+                case 3:
+                    listarAutoresSalvos();
+                    break;
+                case 4:
+                    listarAutoreVivosEmUmAno();
+                    break;
+                case 5:
+                    listarLivrosPorIdioma();
+                    break;
                 case 0:
                     System.out.println("|********************************|");
-                    System.out.println("|     ENCERRANDO A AOLICAÇÃO     |");
+                    System.out.println("|     ENCERRANDO A APLICAÇÃO     |");
                     System.out.println("|********************************|\n");
                     break;
                 default:
@@ -77,6 +91,57 @@ public class Principal {
                     break;
             }
         }
+    }
+
+    private void listarLivrosPorIdioma() {
+        System.out.println("lista de livros por idioma\n------------");
+        System.out.println("""
+                \n\t---- escolha o idioma ----
+                \ten - inglês
+                \tes - espanhol
+                \tfr - francês
+                \tpt - português
+                """);
+        String idioma = scan.nextLine();
+        livros = livrosRepositorio.findByIdiomasContains(idioma);
+        if (livros.isEmpty()) {
+            System.out.println("livros pelo idioma escolhido não encontrado");
+            listarLivrosPorIdioma();
+        } else {
+            livros.stream()
+                    .sorted(Comparator.comparing(Livro::getTitulo))
+                    .forEach(System.out::println);
+        }
+    }
+
+    private void listarAutoreVivosEmUmAno() {
+        System.out.println("liste os autores vivos em um determinado ano... por favor, insira o ano");
+        Integer ano = Integer.valueOf(scan.nextLine());
+        autor = autorRepositorio
+                .findByAnoNascimentoLessThanEqualAndAnoFalecimentoGreaterThanEqual(ano, ano);
+        if (autor.isEmpty()) {
+            System.out.println("autores vivos não encontrados");
+        } else {
+            autor.stream()
+                    .sorted(Comparator.comparing(Autor::getNome))
+                    .forEach(System.out::println);
+        }
+    }
+
+    private void listarAutoresSalvos() {
+        System.out.println("lista de autores no banco de dados\n------------");
+        autor = autorRepositorio.findAll();
+        autor.stream()
+                .sorted(Comparator.comparing(Autor::getNome))
+                .forEach(System.out::println);
+    }
+
+    private void listarLivrosSalvos() {
+        System.out.println("lista de livros no banco de dados\n------------");
+        livros = livrosRepositorio.findAll();
+        livros.stream()
+                .sorted(Comparator.comparing(Livro::getTitulo))
+                .forEach(System.out::println);
     }
 
     private void buscarLivro() {
@@ -98,6 +163,7 @@ public class Principal {
         Optional<Livro> livroEncontrado = livrosRepositorio.findByTituloContains(livro.getTitulo());
         if (livroEncontrado.isPresent()) {
             System.out.println("esse livro já existe no banco de dados");
+            System.out.println(livro.toString());
         } else {
             try {
                 livrosRepositorio.save(livro);
@@ -111,6 +177,7 @@ public class Principal {
         Optional<Autor> autorEncontrado = autorRepositorio.findByNomeContains(autor.getNome());
         if (autorEncontrado.isPresent()) {
             System.out.println("esse autor já existe no banco de dados");
+            System.out.println(autor.toString());
         } else {
             try {
                 autorRepositorio.save(autor);
