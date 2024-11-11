@@ -18,11 +18,11 @@
 
 <h2 align = center>
 
-    Desenvolvido como parte do challenge da 
+    Desenvolvido como parte do challenge da [Alura Latam](https://www.aluracursos.com/) em parceria com a Oracle Next Education
 
 
 
-[Alura Latam](https://www.aluracursos.com/) em parceria com a Oracle Next Education, esta é uma aplicação que trabalha com a api gutendex(uma api de livros), você pode realizar buscas por diferentes títulos e guarda-los no banco de dados. Utilizando uma API externa, o projeto garante que o banco de dados utilizado nas buscas, esteja sempre atualizado.
+Descubra seus próximos livros favoritos! Este aplicativo permite pesquisar livros por título em um banco de dados com mais de 7.000 obras. Salve os resultados em um banco de dados PostgreSQL para consulta posterior. Desenvolvido com Spring Boot e Java, utilizando a API Gutendex.
 
 
 
