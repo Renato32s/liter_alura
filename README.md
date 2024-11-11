@@ -22,7 +22,7 @@
 
 
 
-[Alura Latam](https://www.aluracursos.com/) em parceria com a Oracle Next Education, esta é uma aplicação que trabalha com a api gutendex(uma api de livros) você pode realizar buscas por diferentes títulos e guarda-los no banco de dados. Utilizando uma API externa, o projeto garante que o banco de dados utilizado nas buscas, esteja sempre atualizado.
+[Alura Latam](https://www.aluracursos.com/) em parceria com a Oracle Next Education, esta é uma aplicação que trabalha com a api gutendex(uma api de livros), você pode realizar buscas por diferentes títulos e guarda-los no banco de dados. Utilizando uma API externa, o projeto garante que o banco de dados utilizado nas buscas, esteja sempre atualizado.
 
 
 
@@ -142,7 +142,7 @@
 <div align = center>
 
     <h1>
-    Tecnologia usada
+    Tecnologias usada
 
 <br>
 
@@ -163,34 +163,9 @@
 
 
 <br>
+    <br>
 
-   1. Realizar a instalação do JDK 22.0
-
-    do site oficial
-    [DOWNLOAD](https://download.oracle.com/java/22/latest/jdk-22_windows-x64_bin.exe)
-  
-  
- necessário o uso da biblioteca GSON
-        
-    existe um arquivo gson-2.11.0.jar na pasta do projeto, basta extrai-lo e salvar dentro da pasta src/com 
-
-necessário o uso de uma api-key, para conseguir a sua basta ir nesse link
-    
-    https://app.exchangerate-api.com/sign-in
-![tela de login](https://github.com/Renato32s/conversor_de_moedas/blob/main/tela%20de%20login.png)
-
-<br>
-
-
-
-
-
-
-    Abra o prompt de comando ou powershel
-
-<br>
-
-    E faça um clone desse repositório na sua máquina
+    1. faça um clone desse repositório na sua máquina
 
 
 
@@ -204,9 +179,34 @@ git clone git@github.com:Renato32s/conversor_de_moedas.git
 
 ````
 
+<br>
 
+   2. baixe o programa do PostgreSQL do site oficial e crie um usuário e senha
+<br>
+   ![postgresql](https://github.com/Renato32s/liter_alura/blob/main/prints/tela_postgresql.png)
 
 <br>
+  
+  [DOWNLOAD](https://www.postgresql.org/download/)
+
+<br>
+
+  3. necessário criar variáveis de sistema para acessar o banco de dados
+        
+    {DB_HOST}, {DB_NAME}, {DB_USERNAME} e {DB_PASSWORD} para os dados do localhost, nome do banco de dados, nome de usuário e senha respectivamentes
+
+<br>
+
+
+  4. necessário a instalação do maven
+
+    https://maven.apache.org/download.cgi
+  <br>
+      
+  ![download do maven](https://github.com/Renato32s/liter_alura/blob/main/prints/tela_maven.png)
+
+<br>
+
 
         Você deve navegar até a pasta de destino onde fez o clone do repositório
 
@@ -218,7 +218,7 @@ git clone git@github.com:Renato32s/conversor_de_moedas.git
 
 ````bash
 
-pasta_destino/conversor_de_moedas/src/
+pasta_destino/liter_alura/
 
 ````
 </h2>
@@ -245,30 +245,19 @@ pasta_destino/conversor_de_moedas/src/
 
 ````bash    
 
-    javac Principal.java
+    mvn package
 
 ````
 
 <h2 align = center>
 
-    E para executar a aplicação use esse outro comando
+    E pronto, você já estará rodando a aplicaçã
 
 <br>
 
+## Desenvolvido por : Renato Santos    
+<h2 align = center>
+  <a align = center href="https://github.com/Renato32s/liter_alura/blob/main/LICENSE.txt"><img src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>
 </h2>
 
-
-````bash
-
-    java Principal
-
-````
-
-<h2 align = center>
-
- E pronto, você já estará rodando a aplicação
-
- 
-
-<br>
 
