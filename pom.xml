@@ -11,6 +11,7 @@
 	<groupId>br.com.alura</groupId>
 	<artifactId>literalura</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>literalura</name>
 	<description>Desafio Alura - Consumindo uma API de Biblioteca de livros</description>
 	<url/>
@@ -27,6 +28,8 @@
 		<url/>
 	</scm>
 	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
@@ -58,6 +61,26 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.13.0</version>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.6.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>java</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<mainClass>br.com.alura.literalura.LiteraluraApplicationTests</mainClass>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

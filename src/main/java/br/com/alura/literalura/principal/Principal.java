@@ -8,7 +8,6 @@ import br.com.alura.literalura.repository.iAutorRepository;
 import br.com.alura.literalura.repository.iLivrosRepository;
 import br.com.alura.literalura.service.ConsumoAPI;
 import br.com.alura.literalura.service.ConverteDados;
-import jakarta.persistence.criteria.CriteriaBuilder;
 
 import java.util.*;
 
