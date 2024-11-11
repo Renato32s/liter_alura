@@ -257,7 +257,7 @@ pasta_destino/liter_alura/
 
 ## Desenvolvido por : Renato Santos    
 <h2 align = center>
-  <a align = center href="https://github.com/Renato32s/liter_alura/blob/main/LICENSE.txt"><img src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>
+  <a align = center href="https://github.com/Renato32s/liter_alura/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>
 </h2>
 
 
