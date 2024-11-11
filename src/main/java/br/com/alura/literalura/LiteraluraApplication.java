@@ -3,8 +3,6 @@ package br.com.alura.literalura;
 import br.com.alura.literalura.principal.Principal;
 import br.com.alura.literalura.repository.iAutorRepository;
 import br.com.alura.literalura.repository.iLivrosRepository;
-import br.com.alura.literalura.service.ConsumoAPI;
-import br.com.alura.literalura.service.ConverteDados;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
